@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Speed Comparison</title>
+  <style>
+    body {
+      background-image: url('C:\\Users\\ramup\\OneDrive\\Desktop\\react\\bg9.jpg');
+      background-repeat: no-repeat;
+      background-size: cover;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      width: 300px;
+      margin: 50px auto;
+      background-color: rgba(255, 255, 255, 0.8);
+      padding: 50px;
+      align-content: center;
+      border-radius: 5px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      font-size: 24px;
+      text-align: center;
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 10px;
+      font-weight: bold;
+      color: #555;
+    }
+
+    input[type="range"] {
+      width: 100%;
+      padding: 8px;
+      border-radius: 3px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      width: 100%;
+      padding: 8px;
+      border-radius: 3px;
+      border: none;
+      background-color: #4caf50;
+      color: #fff;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    .alert-container {
+      display: none;
+      margin-top: 100px;
+      padding: 50px;
+      align-content: center;
+      border-radius: 10px;
+      background-color: #f44336;
+      color: #peachpuff;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    .safe {
+      display: none;
+      margin-top: 10px;
+      padding: 10px;
+      border-radius: 3px;
+      background-color: #4caf50;
+      color: #fff;
+      font-weight: bold;
+      text-align: center;
+    }
+  </style>
+  <script>
+    var buzzerTimeout;
+
+    function checkSpeed() {
+      var constantSpeed = 60;
+      var currentSpeed = parseInt(document.getElementById("currentSpeed").value);
+
+      var constantSpeedDisplay = document.getElementById("constantSpeedDisplay");
+      constantSpeedDisplay.innerHTML = constantSpeed;
+
+      var container = document.getElementById("container");
+      var alertContainer = document.getElementById("alertContainer");
+      var alertMessage = document.getElementById("alertMessage");
+      var safeMessage = document.getElementById("safeMessage");
+
+      if (currentSpeed > constantSpeed) {
+        alertMessage.innerHTML = "Speed exceeds the constant speed!";
+        container.style.display = "none";
+        alertContainer.style.display = "block";
+        safeMessage.style.display = "none";
+        playBuzzer();
+      } else {
+        container.style.display = "none";
+        alertContainer.style.display = "block";
+        safeMessage.style.display = "block";
+        stopBuzzer();
+      }
+    }
+
+    function playBuzzer() {
+      var buzzer = new Audio("buzzer.mp3"); // Assuming the buzzer.mp3 file is in the same directory as this HTML file
+      buzzer.play();
+      buzzerTimeout = setTimeout(stopBuzzer, 2000); // Stop the buzzer after 2 seconds (2000 milliseconds)
+    }
+
+    function stopBuzzer() {
+      clearTimeout(buzzerTimeout);
+      var buzzer = document.getElementsByTagName("audio")[0];
+      buzzer.pause();
+      buzzer.currentTime = 0;
+    }
+  </script>
+</head>
+<body>
+  <div id="container" class="container">
+    <h1>Speed Comparison</h1>
+
+    <label for="currentSpeed">Current Speed:</label>
+    <input type="range" id="currentSpeed" min="0" max="100">
+
+    <br>
+
+    <button onclick="checkSpeed()">Check Speed</button>
+
+    <p>Constant Speed: <span id="constantSpeedDisplay"></span></p>
+  </div>
+
+  <div id="alertContainer" class="alert-container">
+    <h1>Alert Message</h1>
+
+    <div id="alertMessage" class="alert"></div>
+    <div id="safeMessage" class="safe">Safe</div>
+  </div>
+
+  <script>
+    // Set current speed input value to the midpoint of the range
+    var currentSpeedInput = document.getElementById("currentSpeed");
+    currentSpeedInput.value = (parseInt(currentSpeedInput.min) + parseInt(currentSpeedInput.max)) / 2;
+  </script>
+</body>
+</html>
